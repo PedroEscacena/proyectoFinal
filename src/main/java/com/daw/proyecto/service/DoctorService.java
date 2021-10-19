@@ -8,8 +8,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class DoctorService {
+
 	@Autowired
-	private Doctor doctorRepository;
+	private DoctorRepository doctorRepository;
 
 	public List<Doctor> findAll() {
 		return doctorRepository.findAll();

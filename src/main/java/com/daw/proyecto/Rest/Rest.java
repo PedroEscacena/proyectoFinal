@@ -1,6 +1,7 @@
 package com.daw.proyecto.Rest;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -9,9 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.daw.proyecto.model.Doctor;
-import com.daw.proyecto.model.MedAppointment;
 import com.daw.proyecto.service.DoctorService;
-import com.daw.proyecto.service.MedAppointmentService;
 
 @RestController
 @RequestMapping(path = "/apirest")
@@ -19,19 +18,21 @@ import com.daw.proyecto.service.MedAppointmentService;
 
 public class Rest {
 
+//	@Autowired
+//	private MedAppointmentService medAppointmentService;
 	@Autowired
-	private MedAppointmentService medAppointmentService;
+	private DoctorService doctorService;
 
-	@GetMapping("/medAppointment-list")
+	@GetMapping("/doctor-list")
 	public List<Doctor> doctorList(Model model) {
-		List<Doctor> list = DoctorService.findAll();
+		List<Doctor> list = doctorService.findAll();
+
 		for (Doctor doctor : list) {
-			for (MedAppointment medAppointment : doctor.getmedAppointments()) {
-//				doctor.setDrivers(null);
-//				doctor.setGarages(null);
-			}
+			doctor.setMedappointment(null);
+			doctor.setPatient(null);
 		}
 
 		return list;
+
 	}
 }
