@@ -1,16 +1,14 @@
 package daw.pedroe.proyectoFinal.model;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "DOCTOR")
+@Table(name = "doctor")
 public class Doctor implements Serializable {
 
 	/**
@@ -20,20 +18,31 @@ public class Doctor implements Serializable {
 
 	@Id
 	private String nif;
-	@Column
+	
+	@Column(name="name")
 	private String name;
-	@Column
+	
+	@Column(name="surname")
 	private String surname;
-	@Column
+	
+	@Column(name="salary")
 	private int salary;
-	@Column
+	
+	@Column(name="workhours")
 	private int workhours;
-	@Column
+	
+	@Column(name="specialty")
 	private String specialty;
-	@Column
-	private List<MedAppointment> medAppointment;
-	@Column
-	private List<Patient> patient;
+	
+	@Column(name="medAppointment")
+	private MedAppointment medAppointment;
+	
+	@Column(name="patient")
+	private Patient patient;
+	
+	@Column(name="user_id")
+	private User user;
+	
 
 	public Doctor() {
 		super();
@@ -48,7 +57,7 @@ public class Doctor implements Serializable {
 	}
 
 	public Doctor(String name, String surname, String nif, String specialty, int salary, int workhours,
-			List<MedAppointment> medAppointment, List<Patient> patient) {
+			MedAppointment medAppointment, Patient patient,User user) {
 		super();
 		this.name = name;
 		this.surname = surname;
@@ -58,6 +67,7 @@ public class Doctor implements Serializable {
 		this.workhours = workhours;
 		this.medAppointment = medAppointment;
 		this.patient = patient;
+		this.user=user;
 	}
 
 	public String getNif() {
@@ -108,20 +118,30 @@ public class Doctor implements Serializable {
 		this.specialty = specialty;
 	}
 
-	public List<MedAppointment> getMedAppointment() {
+	public MedAppointment getMedAppointment() {
 		return medAppointment;
 	}
 
-	public void setMedAppointment(List<MedAppointment> medAppointment) {
+	public void setMedAppointment(MedAppointment medAppointment) {
 		this.medAppointment = medAppointment;
 	}
 
-	public List<Patient> getPatient() {
+	public Patient getPatient() {
 		return patient;
 	}
 
-	public void setPatient(List<Patient> patient) {
+	public void setPatient(Patient patient) {
 		this.patient = patient;
 	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+	
+	
 
 }

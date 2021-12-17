@@ -15,12 +15,10 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "PATIENT")
+@Table(name = "patient")
 public class Patient implements Serializable {
 
 	/**
@@ -31,28 +29,31 @@ public class Patient implements Serializable {
 	@Id
 	private String patient_nif;
 
-	@Column
+	@Column(name="name")
 	private String name;
-	@Column
+	@Column(name="surname")
 	private String surname;
 
-	@Column
+	@Column(name="address")
 	private String address;
 
-	@Column
+	@Column(name="sex")
 	private char sex;
 
-	@Column
+	@Column(name="edad")
 	private Long edad;
 
-	@Column
+	@Column(name="job")
 	private String job;
-
-	@Column
-	private MedAppointment medAppointment;
-
-	@Column
+	
+	@Column(name="doctor_nif")
 	private Doctor doctor;
+	
+	@Column(name="medAppointment_id")
+	private MedAppointment medAppointment;
+	
+	@Column(name="user_id")
+	private User user;
 
 	public Patient() {
 		super();
@@ -60,7 +61,7 @@ public class Patient implements Serializable {
 	}
 
 	public Patient(String patient_nif, String name, String surname, String address, MedAppointment medAppointment,
-			Doctor doctor, Long edad, char sex, String job) {
+			Doctor doctor, Long edad, char sex, String job, User user) {
 		this.patient_nif = patient_nif;
 		this.address = address;
 		this.name = name;
@@ -70,6 +71,8 @@ public class Patient implements Serializable {
 		this.edad = edad;
 		this.sex = sex;
 		this.job = job;
+		this.user=user;
+		
 	}
 
 	public Patient(String name, String surname, String patient_nif) {
@@ -134,5 +137,14 @@ public class Patient implements Serializable {
 	public void setJob(String job) {
 		this.job = job;
 	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+	
 
 }

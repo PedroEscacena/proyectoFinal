@@ -1,13 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
 
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>Report</title>
+<title>Doctor</title>
 <meta name="description" content="Core HTML Project">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -31,7 +29,6 @@
 	href="https://file.myfontastic.com/7vRKgqrN3iFEnLHuqYhYuL/icons.css"
 	rel="stylesheet">
 
-<!-- Modernizr JS for IE8 support of HTML5 elements and media queries -->
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.js"></script>
 
@@ -48,98 +45,135 @@
 				</button>
 				<div class="collapse navbar-collapse" id="navbar-nav-header">
 					<ul class="navbar-nav ml-auto">
-						<li class="nav-item"><a class="nav-link" href="../index.jsp">Back
+						<li class="nav-item"><a class="nav-link" href="../index.html">Back
 								to Home</a></li>
 						<li class="nav-item"><a class="nav-link"
-							href="../medAppointment/medAppointment.jsp">Back to Medical
-								appointment</a></li>
+							href="../patient/patient.html">Patient page</a></li>
 					</ul>
 				</div>
 			</div>
 
 		</nav>
 		<div class="jumbotron d-flex align-items-center"
-			style="background-image: url(../img/blog7.jpg)">
+			style="background-image: url(../img/blog-1.jpg)">
 			<div class="container text-center">
-				<h1 class="display-2 mb-4 single-blog-title">Reports</h1>
+				<h1 class="display-2 mb-4 single-blog-title">Doctor</h1>
+				<div sec:authorize="isAuthenticated()">
+					<b><span sec:authentication="name">Username</span></b> &nbsp; <i><span
+						sec:authentication="principal.authorities">Roles</span></i>
+				</div>
 			</div>
 		</div>
-		<!-- Contact Form Section -->
 		<section id="gtco-single-content" class="bg-white">
 			<div class="container">
 				<div class="section-content blog-content">
 					<div class="row">
-						<!-- Single Content Holder -->
-						<div class="container">
-							<div class="section-content">
-								<!-- Section Title -->
-								<div class="title-wrap">
-									<h2 class="section-title">Crear informe médico</h2>
-									<p class="section-sub-title">Crear un informe médico
-										relacionado con la cita actual.</p>
-
-								</div>
-								<!-- End of Section Title -->
-								<div class="row">
-									<!-- Contact Form Holder -->
-									<div class="col-md-8 offset-md-2 contact-form-holder mt-4">
-										<form method="post" name="" action="">
-											<div class="row">
-												<div class="col-md-6 form-input">
-													<input type="text" class="form-control" id="namePatient"
-														name="name" placeholder="Patient">
-												</div>
-												<div class="col-md-6 form-input">
-													<input type="text" class="form-control" id="nameDoctor"
-														name="name" placeholder="Doctor">
-												</div>
-												<div class="col-md-6 form-input">
-													<input type="text" class="form-control" id="email"
-														name="email" placeholder="Email">
-												</div>
-												<div class="col-md-6 form-input">
-													<input type="text" class="form-control" id="Medicine"
-														name="Medicine" placeholder="Medicine">
-												</div>
-												<div class="col-md-6 form-input">
-													<input type="date" id="start" name="trip-start"
-														value="2022-07-22" min="2021-01-30" max="2018-12-31">
-												</div>
-												<div class="col-md-6 form-input">
-													<input type="text" class="form-control" id="subject"
-														name="subject" placeholder="Subject">
-												</div>
-												<div class="col-md-12 form-textarea">
-													<textarea class="form-control" id="message" name="message"
-														rows="6" placeholder="Comment"></textarea>
-												</div>
-												<div class="col-md-12 form-btn text-center">
-													<button class="btn btn-block btn-secondary btn-red"
-														type="submit" name="submit" onclick="return false;">Submit
-														report</button>
-
-												</div>
-
-
-												<div class="col-md-6 form-input text-center">
-													<button class="btn btn-block btn-warning" id="boton"
-														type="submit" name="submit"
-														onclick="location.href='<%=request.getContextPath() + "/pdf"%>';"
-														value="Download PDF">Create pdf</button>
-												</div>
-											</div>
-										</form>
-									</div>
-									<!-- End of Contact Form Holder -->
-								</div>
-							</div>
+						<div class="col-md-12 form-btn text-center">
+							<h4>Datos de doctor</h4>
+							<p>Muestra los datos del doctor</p>
+							<table class="redTable">
+								<thead>
+									<tr>
+										<th>Nif</th>
+										<th>Nombre</th>
+										<th>Salary</th>
+										<th>Horas de trabajo</th>
+										<th>Especialidad</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="doctor : ${listDoctors}">
+										<td th:text="${doctor.nif}"></td>
+										<td th:text="${doctor.name} "></td>
+										<td th:text="${doctor.salary}"></td>
+										<td th:text="${doctor.workhours}"></td>
+										<td th:text="${doctor.specialty}"></td>
+									</tr>
+								</tbody>
+							</table>
+							<h4>Lista de pacientes del doctor</h4>
+							<table class="redTable">
+								<thead>
+									<tr>
+										<th>Nombre</th>
+										<th>Apellido</th>
+										<th>Nif</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="patient : ${listPatients}">
+										<td th:text="${patient.name}"></td>
+										<td th:text="${patient.surname}"></td>
+										<td th:text="${patient.nif}"></td>
+									</tr>
+								</tbody>
+							</table>
 						</div>
-						<!-- End of Contact Form Holder -->
+						<br>
+
+						<div class="col-md-12 form-btn text-center">
+
+							<br> <br>
+							<h4>Crear un informe médico</h4>
+							<div class="col-md-12 form-btn text-center">
+								<button class="btn btn-block btn-secondary btn-red"
+									onclick="location.href='../report/report.html'" type="button">Crear
+									un informe</button>
+
+							</div>
+
+
+						</div>
+
+						<br>
+
+						<div class="col-md-8 offset-md-2 contact-form-holder mt-4">
+							<h2 class="section-title">Crear cita médica</h2>
+							<p class="section-sub-title">Crear una nueva cita médica.</p>
+							<form action="#" th:action="@{/saveMedAppointment}" th:object="${medAppointment}"
+								method="POST">
+								<div class="row">
+									<div class="col-md-12 form-input">
+										<input type="text" class="form-control" th:field="*{nif}" placeholder="Patient nif"> 	
+									</div>
+									<div class="col-md-6 form-input">
+										<input type="date" th:field="*{date}" id="start" name="trip-start"
+											value="2022-07-22" min="2021-01-30" max="2018-12-31">
+									</div>
+									<div class="col-md-6 form-input">
+										<input type="text" th:field="*{room}" class="form-control" id="room"
+											name="room" placeholder="Room">
+									</div>
+									<div class="col-md-12 form-textarea">
+										<textarea class="form-control" th:field="*{note}"  id="message" name="message"
+											rows="6" placeholder="Note"></textarea>
+									</div>
+									<div class="col-md-12 form-btn text-center">
+										<button class="btn btn-block btn-secondary btn-red"
+											type="submit" name="submit" onclick="return false;">Submit
+											Medical appointment</button>
+
+									</div>
+								</div>
+							</form>
+						</div>
+						<br>
+					</div>
+					<br>
+					<div class="col-md-12 form-btn text-center">
+						<h2>
+							<a class="nav-item nav-link"
+								href="../medAppointment/medAppointment.html">Ver citas
+								médicas</a>
+						</h2>
+						<br>
+						<p>Mostrar los datos las citas que tiene el doctor</p>
 					</div>
 				</div>
+
 			</div>
+
 		</section>
-		<!-- End of Contact Form Section -->
 		<footer class="mastfoot mb-3 bg-white py-4 border-top">
 			<div class="inner container">
 				<div class="row">
@@ -169,6 +203,7 @@
 			</div>
 		</footer>
 	</div>
+
 
 	<!-- External JS -->
 	<script type="text/javascript"

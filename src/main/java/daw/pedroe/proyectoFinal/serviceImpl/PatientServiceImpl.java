@@ -1,60 +1,43 @@
 package daw.pedroe.proyectoFinal.serviceImpl;
 
 import java.util.List;
+import java.util.Optional;
 
-import org.apache.log4j.Logger;
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
-import daw.pedroe.proyectoFinal.dao.PatientDAO;
 import daw.pedroe.proyectoFinal.model.Patient;
+import daw.pedroe.proyectoFinal.repository.PatientRepository;
 import daw.pedroe.proyectoFinal.service.PatientService;
-
+@Transactional
 public class PatientServiceImpl implements PatientService {
 
-	private static final Logger log = Logger.getLogger(PatientServiceImpl.class);
 
 	@Autowired
-	private PatientDAO patientDao;
+	private PatientRepository patientRepository;
 
-	@Override
-	public String create(Patient newEntity) {
-		log.debug("Metodo: create.");
-		patientDao.persist(newEntity);
-		return newEntity.getPatient_nif();
-	}
-
-	@Override
-	public void delete(Patient entity) {
-		// TODO Auto-generated method stub
-
-		log.debug("Metodo: delete");
-		patientDao.delete(entity);
-	}
-
-	@Override
-	public void update(Patient entity) {
-		// TODO Auto-generated method stub
-
-		log.debug("Metodo: update");
-		patientDao.attachDirty(entity);
-	}
+	
 
 	@Override
 	public List<Patient> findAllPatient() {
-		log.debug("Metodo: findAllPatient");
-		return (List<Patient>) patientDao.findAll();
-	}
-
-	@Override
-	public List<Patient> findByNifPatient(List<String> patient) {
-		log.debug("Metodo: findByNifPatient");
-		return patientDao.findByIdPatient(patient);
-	}
-
-	@Override
-	public Patient findByKey(String patientId) {
 		// TODO Auto-generated method stub
-		return null;
+		return patientRepository.findAll();
 	}
+
+	@Override
+	public Optional<Patient> findByNifPatient(String nif) {
+		// TODO Auto-generated method stub
+		Optional<Patient> optional = patientRepository.findById(nif);
+		Patient patient = null;
+		if (optional.isPresent()) {
+			patient = optional.get();
+		} else {
+			throw new RuntimeException(" Employee not found for id :: " + nif);
+		}
+		return Optional.of(patient);
+	}
+	
+
 
 }

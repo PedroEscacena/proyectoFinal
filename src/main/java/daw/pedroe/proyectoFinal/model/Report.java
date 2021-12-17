@@ -1,36 +1,44 @@
 package daw.pedroe.proyectoFinal.model;
 
-import java.util.Calendar;
+import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 
 @Entity
-@Table(name = "REPORT")
+@Table(name = "report")
 public class Report {
 
 	@Id
 	private String id;
-	@Column
+	
+	@Column(name="comment")
 	private String comment;
-	@Column
+	
+	@Column(name="rep")
 	private String rep;
-	@Column
+	
+	@Column(name="medicine")
 	private String medicine;
-	@Column
+	
+	@Column(name="result")
 	private String result;
-	@Column
-	private Calendar date;
-	@Column
+	
+	@Column(name="date")
+	private Date date;
+	
+	@Column(name="medApp_id")
 	private MedAppointment medApp;
-	@Column
-	private Patient patient;
-	@Column
+	
+	@Column(name="doctor_nif")
 	private Doctor doctor;
+	
+	@Column(name="patient_nif")
+	private Patient patient;
+	
 
 
 	public Report() {
@@ -72,11 +80,11 @@ public class Report {
 		this.result = result;
 	}
 
-	public Calendar getDate() {
+	public Date getDate() {
 		return date;
 	}
 
-	public void setDate(Calendar date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
 

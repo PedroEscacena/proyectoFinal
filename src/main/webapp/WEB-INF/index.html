@@ -1,8 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
 
@@ -50,17 +47,27 @@
 				<div class="collapse navbar-collapse" id="navbar-nav-header">
 					<ul class="navbar-nav ml-auto">
 						<li class="nav-item"><a class="nav-link"
-							href="patient/patient.jsp">Patient</a></li>
-						<li class="nav-item"><a class="nav-link"
-							href="doctor/doctor.jsp">Doctor</a></li>
+							href="patient/patient.html">Patient</a></li>
+						<sec:ifAnyGranted roles="ROLE_DOCTOR">
+							<li class="nav-item"><a class="nav-link"
+								href="doctor/doctor.html">Doctor</a></li>
+						</sec:ifAnyGranted>
 					</ul>
 				</div>
 			</div>
 
 		</nav>
+
+
+
 		<div class="jumbotron d-flex align-items-center"
 			style="background-image: url(img/blog-1.jpg)">
 			<div class="container text-center">
+				<div sec:authorize="isAuthenticated()">
+					Welcome <b><span sec:authentication="name">Username</span></b>
+					&nbsp; <i><span sec:authentication="principal.authorities">Roles</span></i>
+				</div>
+
 				<h1 class="display-2 mb-4 single-blog-title">Página de inicio</h1>
 			</div>
 		</div>
@@ -69,60 +76,28 @@
 			<div class="container">
 				<div class="section-content blog-content">
 					<div class="row">
-						<!--<div class="col-md-12 form-btn text-center">
-							<c:if test="${sessionScope['login'] != null}">
 
-								<h1>Welcome to your profile!</h1>
-
-								<c:if test="${sessionScope['login'].role == 'doctor'}">
-							User doctor<br>
-									<h3>Notificaciones sin asignar:</h3>
-									<br>
-									<c:forEach var='parametro' items='${notificationAdmin}'>
-							-> User: <c:out value="${parametro.notifier}" /> | <c:out
-											value="${parametro.title}" /> | <c:out
-											value="${parametro.body}" />
-										<br>
-									</c:forEach>
-									<h3>Usuarios sin activar:</h3>
-									<c:forEach var='parametro' items='${userAdmin}'>
-							-> User: <c:out value="${parametro.username}" /> | <c:out
-											value="${parametro.fullName}" />
-										<br>
-									</c:forEach>
-								</c:if>
-
-								<c:if test="${sessionScope['login'].role =='patient' }">
-							User Patient<br>
-									<c:forEach var='parametro' items='${notifications}'>
-							-> <c:out value="${parametro.province}" /> | <c:out
-											value="${parametro.municipality}" /> | <c:out
-											value="${parametro.title}" /> | <c:out
-											value="${parametro.body}" /> | <c:out
-											value="${parametro.link}" />
-										<br>
-									</c:forEach>
-								</c:if>
-						</div>  -->
 						<!-- Single Content Holder -->
 						<div class="col-md-8 offset-md-2 mt-4">
 							<div class="col-md-12 form-btn text-center">
 								<h4>En esta página mostramos la página de inicio y decidir
 									qué hacer</h4>
 								<h2>
-									<a class="nav-item nav-link" href="patient/patient.jsp">Ver
+									<a class="nav-item nav-link" href="patient/patient.html">Ver
 										datos de paciente</a>
 								</h2>
 								<br>
 								<p>Mostrar los datos de los pacientes y las citas que tiene</p>
 								<br>
-								<h2>
-									<a class="nav-item nav-link" href="doctor/doctor.jsp">Ver
-										datos doctor</a>
-								</h2>
-								<br>
-								<p>Mostrar los datos del doctor, las citas que tiene y los
-									pacientes que tiene vinculados y sus respectivos datos.</p>
+								<sec:ifAnyGranted roles="ROLE_DOCTOR">
+									<h2>
+										<a class="nav-item nav-link" href="doctor/doctor.html">Ver
+											datos doctor</a>
+									</h2>
+									<br>
+									<p>Mostrar los datos del doctor, las citas que tiene y los
+										pacientes que tiene vinculados y sus respectivos datos.</p>
+								</sec:ifAnyGranted>
 
 								<br>
 							</div>

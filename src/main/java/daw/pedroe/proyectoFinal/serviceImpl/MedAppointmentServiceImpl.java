@@ -1,55 +1,50 @@
 package daw.pedroe.proyectoFinal.serviceImpl;
 
 import java.util.List;
+import java.util.Optional;
 
-import org.apache.log4j.Logger;
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
-import daw.pedroe.proyectoFinal.dao.MedAppointmentDAO;
 import daw.pedroe.proyectoFinal.model.MedAppointment;
+import daw.pedroe.proyectoFinal.repository.MedAppointmentRepository;
 import daw.pedroe.proyectoFinal.service.MedAppointmentService;
 
+@Transactional
 public class MedAppointmentServiceImpl implements MedAppointmentService {
 
-	private static final Logger log = Logger.getLogger(MedAppointmentServiceImpl.class);
-
 	@Autowired
-	private MedAppointmentDAO medAppointmentDao;
+	private MedAppointmentRepository medAppointmentRepository;
 
 	@Override
-	public String create(MedAppointment newEntity) {
-		log.debug("Metodo: create.");
-		medAppointmentDao.persist(newEntity);
-		return Integer.toString(newEntity.getId())	;
-	}
-
-	@Override
-	public void delete(MedAppointment entity) {
+	public List<MedAppointment> findAllMedAppointment() {
 		// TODO Auto-generated method stub
-
-		log.debug("Metodo: delete");
-		medAppointmentDao.delete(entity);
-
+		return medAppointmentRepository.findAll();
 	}
 
 	@Override
-	public void update(MedAppointment entity) {
+	public void saveMedAppointment(MedAppointment medAppointment) {
 		// TODO Auto-generated method stub
-
-		log.debug("Metodo: update");
-		medAppointmentDao.attachDirty(entity);
+		medAppointmentRepository.save(medAppointment);
 	}
 
 	@Override
-	public List<MedAppointment> findAll() {
-		log.debug("Metodo: findAllPatient");
-		return (List<MedAppointment>) medAppointmentDao.findAll();
-	}
-
-	@Override
-	public List<MedAppointment> findByIdMedApp(String string) {
+	public void deleteMedAppointmentById(long id) {
 		// TODO Auto-generated method stub
-		return null;
+		medAppointmentRepository.deleteById(String.valueOf(id));
+	}
+
+	@Override
+	public Optional<MedAppointment> findByIdMedAppointment(long id) {
+		Optional<MedAppointment> optional = medAppointmentRepository.findById(String.valueOf(id));
+		MedAppointment medAppointment = null;
+		if (optional.isPresent()) {
+			medAppointment = optional.get();
+		} else {
+			throw new RuntimeException(" Employee not found for id :: " + id);
+		}
+		return Optional.of(medAppointment);
 	}
 
 

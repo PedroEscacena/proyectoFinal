@@ -1,60 +1,39 @@
 package daw.pedroe.proyectoFinal.serviceImpl;
 
-import org.apache.log4j.Logger;
+import java.util.List;
+import java.util.Optional;
+
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
-import daw.pedroe.proyectoFinal.dao.DoctorDAO;
-
 import daw.pedroe.proyectoFinal.model.Doctor;
+import daw.pedroe.proyectoFinal.repository.DoctorRepository;
 import daw.pedroe.proyectoFinal.service.DoctorService;
 
+@Transactional
 public class DoctorServiceImpl implements DoctorService {
 
-	private static final Logger log = Logger.getLogger(DoctorServiceImpl.class);
-
 	@Autowired
-	private DoctorDAO doctorDao;
-
+	private DoctorRepository doctorRepository;
 	@Override
-	public String create(Doctor newEntity) {
-		log.debug("Metodo: create.");
-		doctorDao.persist(newEntity);
-		return newEntity.getNif();
+	public List<Doctor> findAllDoctor() {
+		return doctorRepository.findAll();
 	}
 
 	@Override
-	public void delete(Doctor entity) {
+	public Optional<Doctor> findByNifDoctor(String nif) {
 		// TODO Auto-generated method stub
-		log.debug("Metodo: delete");
-		doctorDao.delete(entity);
+		Optional<Doctor> optional = doctorRepository.findById(nif);
+		Doctor doctor = null;
+		if (optional.isPresent()) {
+			doctor = optional.get();
+		} else {
+			throw new RuntimeException(" Employee not found for id :: " + nif);
+		}
+		return Optional.of(doctor);
 	}
 
-	@Override
-	public void update(Doctor entity) {
-		// TODO Auto-generated method stub
 
-		log.debug("Metodo: update");
-		doctorDao.attachDirty(entity);
-	}
-
-	
-
-	@Override
-	public java.util.List<Doctor> findAllDoctor() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public java.util.List<Doctor> findByNifDoctor(java.util.List<String> doctor) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Doctor findByKey(String doctorId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }

@@ -1,56 +1,56 @@
 package daw.pedroe.proyectoFinal.serviceImpl;
 import java.util.List;
+import java.util.Optional;
 
-import org.apache.log4j.Logger;
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
-import daw.pedroe.proyectoFinal.dao.ReportDAO;
 import daw.pedroe.proyectoFinal.model.Report;
+import daw.pedroe.proyectoFinal.repository.ReportRepository;
 import daw.pedroe.proyectoFinal.service.ReportService;
-
+@Transactional
 public class ReportServiceImpl implements ReportService {
 
-	private static final Logger log = Logger.getLogger(ReportServiceImpl.class);
-
 	@Autowired
-	private ReportDAO reportDao;
+	private ReportRepository reportRepository;
 
 	@Override
-	public String create(Report newEntity) {
-		log.debug("Metodo: create.");
-		reportDao.persist(newEntity);
-		return newEntity.getId();
-	}
-
-	@Override
-	public void delete(Report entity) {
+	public void saveReport(Report report) {
 		// TODO Auto-generated method stub
-
-		log.debug("Metodo: delete");
-		reportDao.delete(entity);
-
-	}
-
-	@Override
-	public void update(Report entity) {
-		// TODO Auto-generated method stub
-
-		log.debug("Metodo: update");
-		reportDao.attachDirty(entity);
-
+		reportRepository.save(report);
 	}
 
 	@Override
 	public List<Report> findAllReport() {
-		log.debug("Metodo: findAllReport");
-		return (List<Report>) reportDao.findAll();
+		// TODO Auto-generated method stub
+		return reportRepository.findAll();
 	}
-
 
 	@Override
-	public List<Report> findByIdReport(String reportId) {
-		// TODO Auto-generated method stub
-		return null;
+	public Optional<Report> findByIdReport(String reportId) {
+		Optional<Report> optional = reportRepository.findById(reportId);
+		Report report = null;
+		if (optional.isPresent()) {
+			report = optional.get();
+		} else {
+			throw new RuntimeException(" Employee not found for id :: " + reportId);
+		}
+		return Optional.of(report);
 	}
+
+	@Override
+	public void deleteReportById(String id) {
+		// TODO Auto-generated method stub
+		reportRepository.deleteById(id);
+	}
+	
+
+	
+//	@Override
+//	public void create(Report newEntity) {
+//		log.debug("metodo: create.");
+//		reportRepository.save(newEntity);
+//	}
 
 }

@@ -1,7 +1,6 @@
 package daw.pedroe.proyectoFinal.utils;
 
 import java.io.ByteArrayOutputStream;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -15,10 +14,9 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
-import daw.pedroe.proyectoFinal.model.MedAppointment;
 import daw.pedroe.proyectoFinal.model.Report;
 
-public class GeneratePDF {
+public class GeneratePDFReport {
 
 	public static ByteArrayOutputStream getPdfFile(Report report) {
 
@@ -93,7 +91,7 @@ public class GeneratePDF {
 
 		} catch (DocumentException ex) {
 
-			Logger.getLogger(GeneratePDF.class.getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(GeneratePDFReport.class.getName()).log(Level.SEVERE, null, ex);
 		}
 
 		return bout;

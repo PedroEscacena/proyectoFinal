@@ -1,20 +1,17 @@
 package daw.pedroe.proyectoFinal.model;
 
 import java.io.Serializable;
-import java.util.Calendar;
-import java.util.List;
+import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "MEDAPPOINTMENT")
+@Table(name = "medAppointment")
 public class MedAppointment implements Serializable {
 
 	/**
@@ -24,60 +21,57 @@ public class MedAppointment implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+	private long id;
 
-	@Column
-	private Calendar date;
+	@Column(name="date")
+	private Date date;
 
-	@Column
+	@Column(name="room")
 	private String room;
 
-	@Column
-	private String result;
-
-	@Column
+	@Column(name="note")
 	private String note;
 
-	@Column
+	@Column(name="patient_nif")
 	private Patient patient;
 
-	@Column
-	private List<Doctor> doctor;
+	@Column(name="nif")
+	private Doctor doctor;
 
 	public MedAppointment() {
 		super();
 	}
 
-	public MedAppointment(Calendar date, String room, String result, String note, List<Doctor> doctor, Patient patient) {
+	public MedAppointment(long id,Date date, String room,String note, Doctor doctor, Patient patient) {
 		super();
+		this.id=id;
 		this.date = date;
 		this.room = room;
-		this.result = result;
 		this.note = note;
 		this.doctor = doctor;
 		this.patient = patient;
 	}
 
-	public MedAppointment(Calendar date, List<Doctor> doctor, Patient patient) {
+	public MedAppointment(Date date, Doctor doctor, Patient patient) {
 		super();
 		this.date = date;
 		this.doctor = doctor;
 		this.patient = patient;
 	}
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
-	public Calendar getDate() {
+	public Date getDate() {
 		return date;
 	}
 
-	public void setDate(Calendar date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
 
@@ -87,14 +81,6 @@ public class MedAppointment implements Serializable {
 
 	public void setRoom(String room) {
 		this.room = room;
-	}
-
-	public String getResult() {
-		return result;
-	}
-
-	public void setResult(String result) {
-		this.result = result;
 	}
 
 	public String getNote() {
@@ -113,11 +99,11 @@ public class MedAppointment implements Serializable {
 		this.patient = patient;
 	}
 
-	public List<Doctor> getDoctor() {
+	public Doctor getDoctor() {
 		return doctor;
 	}
 
-	public void setDoctor(List<Doctor> doctor) {
+	public void setDoctor(Doctor doctor) {
 		this.doctor = doctor;
 	}
 

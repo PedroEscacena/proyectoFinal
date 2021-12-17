@@ -1,7 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
 
@@ -48,14 +46,16 @@
 				</button>
 				<div class="collapse navbar-collapse" id="navbar-nav-header">
 					<ul class="navbar-nav ml-auto">
-						<li class="nav-item"><a class="nav-link" href="../index.jsp">Back
+						<li class="nav-item"><a class="nav-link" href="../index.html">Back
 								to Home</a></li>
+						<sec:ifAnyGranted roles="ROLE_DOCTOR">
+							<li class="nav-item"><a class="nav-link"
+								href="../report/report.html">Make a report</a></li>
+							<li class="nav-item"><a class="nav-link"
+								href="../doctor/doctor.html">Back to doctor page</a></li>
+						</sec:ifAnyGranted>
 						<li class="nav-item"><a class="nav-link"
-							href="../report/report.jsp">Make a report</a></li>
-						<li class="nav-item"><a class="nav-link"
-							href="../doctor/doctor.jsp">Back to doctor page</a></li>
-						<li class="nav-item"><a class="nav-link"
-							href="../patient/patient.jsp">Back to patient page</a></li>
+							href="../patient/patient.html">Back to patient page</a></li>
 					</ul>
 				</div>
 			</div>
@@ -66,6 +66,10 @@
 			<div class="container text-center">
 				<h1 class="display-2 mb-4 single-blog-title">Medical
 					appointments</h1>
+				<div sec:authorize="isAuthenticated()">
+					<b><span sec:authentication="name">Username</span></b> &nbsp; <i><span
+						sec:authentication="principal.authorities">Roles</span></i>
+				</div>
 			</div>
 		</div>
 		<!-- Contact Form Section -->
@@ -79,7 +83,7 @@
 							<div class="col-md-8 offset-md-2 mt-4">
 								<div class="col-md-12 form-btn text-center">
 									<h4>Citas médicas</h4>
-									<p>Muestra los datos de las citas del doctor</p>
+									<p>Muestra los datos de las citas del paciente</p>
 								</div>
 							</div>
 
@@ -90,29 +94,30 @@
 											<th>Fecha</th>
 											<th>Habitación</th>
 											<th>Nota</th>
-											<th>Edad</th>
-											<th>Trabajo</th>
-											<th>Doctor asociado</th>
 										</tr>
 									</thead>
 									<tbody>
-										<tr>
-
+										<tr th:each="medAppointment : ${listMedAppointments}">
+											<td th:text="${medAppointment.date}"></td>
+											<td th:text="${medAppointment.room}"></td>
+											<td th:text="${medAppointment.note}"></td>
 										</tr>
 									</tbody>
 								</table>
 							</div>
 
 							<br>
-							<h4>Crear un informe médico</h4>
-						</div>
-						<div class="col-md-12 form-btn text-center">
-							<button class="btn btn-block btn-secondary btn-red"
-								onclick="location.href='../report/report.jsp'" type="button">Crear
-								un informe</button>
+							<sec:ifAnyGranted roles="ROLE_DOCTOR">
+								<h4>Crear un informe médico</h4>
+								<div class="col-md-12 form-btn text-center">
+									<br> <a th:href="@{/showNewEmployeeForm}"
+										class="btn btn-block btn-secondary btn-red"> Crear un
+										informe </a>
+								</div>
+							</sec:ifAnyGranted>
+
 
 						</div>
-						<!-- End of Contact Form Holder -->
 					</div>
 				</div>
 			</div>
